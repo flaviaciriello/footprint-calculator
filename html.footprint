@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footprint Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input {
+            margin: 10px;
+        }
+        button {
+            margin: 20px 0;
+            padding: 10px 20px;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Footprint Calculator</h1>
+    <label for="beef">Beef Consumption (grams/week):</label>
+    <input type="number" id="beef" value="0"><br>
+
+    <label for="chicken">Chicken Consumption (grams/week):</label>
+    <input type="number" id="chicken" value="0"><br>
+
+    <label for="pork">Pork Consumption (grams/week):</label>
+    <input type="number" id="pork" value="0"><br>
+
+    <label for="beyond-meat">Beyond Meat Meals (meals/week):</label>
+    <input type="number" id="beyond-meat" value="0"><br>
+
+    <button onclick="calculateFootprint()">Calculate Footprint</button>
+
+    <div class="result" id="co2Result">Total CO2 Emissions: 0 kg</div>
+    <div class="result" id="waterResult">Total Water Usage: 0 liters</div>
+    <div class="result" id="landResult">Total Land Usage: 0 m²</div>
+
+    <script>
+        function calculateFootprint() {
+            var beef = document.getElementById('beef').value;
+            var chicken = document.getElementById('chicken').value;
+            var pork = document.getElementById('pork').value;
+            var beyondMeat = document.getElementById('beyond-meat').value;
+
+            // Calculations
+            var co2Total = (beef / 100 * 0.27) + (chicken / 100 * 0.069) + (pork / 100 * 0.121) - (beyondMeat * 0.004);
+            var waterTotal = (beef / 100 * 18) + (chicken / 100 * 4.32) + (pork / 100 * 5.9) - (beyondMeat * 0.5);
+            var landTotal = (beef / 100 * 0.2) + (chicken / 100 * 0.043) + (pork / 100 * 0.07) - (beyondMeat * 0.02);
+
+            // Display results
+            document.getElementById('co2Result').innerHTML = "Total CO2 Emissions: " + co2Total.toFixed(2) + " kg";
+            document.getElementById('waterResult').innerHTML = "Total Water Usage: " + waterTotal.toFixed(2) + " liters";
+            document.getElementById('landResult').innerHTML = "Total Land Usage: " + landTotal.toFixed(2) + " m²";
+        }
+    </script>
+</body>
+</html>
