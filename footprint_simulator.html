@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Footprint Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #3a8e1f; /* Dark green */
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid #3cb043; /* Lighter green */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        main {
+            margin: 50px auto;
+            width: 90%;
+            max-width: 800px;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+
+        main:hover {
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            color: #3a8e1f;
+            margin-top: 30px;
+            border-bottom: 2px solid #3cb043;
+            padding-bottom: 5px;
+        }
+
+        label {
+            color: #555;
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="number"] {
+            padding: 12px;
+            width: 100%;
+            font-size: 1em;
+            border: 2px solid #3cb043; /* Lighter green */
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #2c6f18; /* Darker green */
+            outline: none;
+        }
+
+        button {
+            background-color: #3cb043; /* Lighter green */
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #2c6f18; /* Darker green */
+            transform: translateY(-1px);
+        }
+
+        .result {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            color: #333;
+            background-color: #e9f7ef; /* Light green background */
+            border-left: 5px solid #3cb043; /* Lighter green */
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .awareness {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fef7e0; /* Light yellow */
+            border-left: 5px solid #f39c12; /* Yellow accent */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .awareness h2 {
+            color: #f39c12;
+            border-bottom: 2px solid #f39c12;
+        }
+
+        .equivalent-box {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .equivalent-box strong {
+            color: #e67e22;
+        }
+
+        canvas {
+            margin-top: 40px;
+            max-width: 100%;
+        }
+    </style>
+    <!-- Load Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Sustainable Footprint Calculator</h1>
+    </header>
+    <main>
+        <!-- Input fields for portions per week -->
+        <label for="beef">Beef Portions (per week):</label>
+        <input type="number" id="beef" value="0">
+
+        <label for="chicken">Chicken Portions (per week):</label>
+        <input type="number" id="chicken" value="0">
+
+        <label for="pork">Pork Portions (per week):</label>
+        <input type="number" id="pork" value="0">
+
+        <!-- Button to calculate footprint -->
+        <button onclick="calculateFootprint()">Calculate Footprint</button>
+
+        <!-- Display results -->
+        <div class="result" id="co2Result">Total CO2 Emissions: 0 kg</div>
+        <div class="result" id="waterResult">Total Water Usage: 0 hectoliters</div>
+        <div class="result" id="landResult">Total Land Usage: 0 m²</div>
+
+        <!-- Second calculator section -->
+        <h2>Plant-Based Meat Comparison</h2>
+        <button onclick="calculatePlantBasedFootprint()">Calculate Plant-Based Footprint</button>
+        <div class="result" id="plantCo2Result">Total CO2 Emissions (Plant-Based): 0 kg</div>
+        <div class="result" id="plantWaterResult">Total Water Usage (Plant-Based): 0 hectoliters</div>
+        <div class="result" id="plantLandResult">Total Land Usage (Plant-Based): 0 m²</div>
+
+        <!-- Updated Awareness section -->
+        <div class="awareness">
+            <h2>Your Environmental Impact Explained</h2>
+            <p>Let's break down what your consumption means in everyday terms:</p>
+
+            <div class="equivalent-box">
+                <h3>🚗 CO2 Emissions</h3>
+                <p>Your annual meat consumption CO2 impact: <strong id="userCo2Impact">0 kg</strong></p>
+                <p>This is equivalent to:</p>
+                <ul>
+                    <li>Driving a car for <strong id="carEquivalent">0</strong> kilometers</li>
+                    <li>Charging your smartphone <strong id="phoneEquivalent">0</strong> times</li>
+                    <li>Running your AC for <strong id="acEquivalent">0</strong> hours</li>
+                </ul>
+            </div>
+
+            <div class="equivalent-box">
+                <h3>💧 Water Usage</h3>
+                <p>Your annual water usage: <strong id="userWaterImpact">0 hectoliters</strong></p>
+                <p>This is equivalent to:</p>
+                <ul>
+                    <li>Taking <strong id="showerEquivalent">0</strong> ten-minute showers</li>
+                    <li>Filling <strong id="poolEquivalent">0</strong> average backyard swimming pools</li>
+                    <li>Running your dishwasher <strong id="dishwasherEquivalent">0</strong> times</li>
+                </ul>
+            </div>
+
+            <div class="equivalent-box">
+                <h3>🌳 Land Usage</h3>
+                <p>Your annual land usage: <strong id="userLandImpact">0 m²</strong></p>
+                <p>This is equivalent to:</p>
+                <ul>
+                    <li>The size of <strong id="tennisEquivalent">0</strong> tennis courts</li>
+                    <li>Parking space for <strong id="parkingEquivalent">0</strong> cars</li>
+                    <li>A garden that could grow <strong id="vegetableEquivalent">0</strong> kg of vegetables annually</li>
+                </ul>
+            </div>
+
+            <p>By switching to plant-based alternatives, you could reduce these numbers by up to 90% in some cases!</p>
+        </div>
+
+        <!-- Chart to display comparison of CO2, water, and land usage -->
+        <canvas id="footprintChart"></canvas>
+    </main>
+
+    <script>
+        // Create empty datasets for the chart
+        let co2MeatData = 0;
+        let waterMeatData = 0;
+        let landMeatData = 0;
+
+        let co2PlantData = 0;
+        let waterPlantData = 0;
+        let landPlantData = 0;
+
+        const ctx = document.getElementById('footprintChart').getContext('2d');
+        const footprintChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['CO2 Emissions (kg)', 'Water Usage (hectoliters)', 'Land Usage (m²)'],
+                datasets: [
+                    {
+                        label: 'Meat Consumption',
+                        data: [co2MeatData, (waterMeatData / 100), landMeatData],
+                        backgroundColor: '#2ecc71', // Lighter green for meat consumption
+                    },
+                    {
+                        label: 'Plant-Based Consumption',
+                        data: [co2PlantData, (waterPlantData / 100), landPlantData],
+                        backgroundColor: '#f39c12', // Yellow for plant-based consumption
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function calculateFootprint() {
+            // Get user inputs
+            const beef = parseInt(document.getElementById('beef').value) || 0;
+            const chicken = parseInt(document.getElementById('chicken').value) || 0;
+            const pork = parseInt(document.getElementById('pork').value) || 0;
+
+            // Calculate impacts
+            const co2Meat = beef * 27 + chicken * 6 + pork * 12; // CO2 emissions in kg
+            const waterMeat = beef * 2400 + chicken * 1600 + pork * 1700; // Water usage in liters
+            const landMeat = beef * 28 + chicken * 5 + pork * 8; // Land usage in m²
+
+            // Update results on the webpage
+            document.getElementById('co2Result').innerText = `Total CO2 Emissions: ${co2Meat} kg`;
+            document.getElementById('waterResult').innerText = `Total Water Usage: ${(waterMeat / 100).toFixed(2)} hectoliters`;
+            document.getElementById('landResult').innerText = `Total Land Usage: ${landMeat} m²`;
+
+            // Update awareness section
+            document.getElementById('userCo2Impact').innerText = `${co2Meat} kg`;
+            document.getElementById('userWaterImpact').innerText = `${(waterMeat / 100).toFixed(2)} hectoliters`;
+            document.getElementById('userLandImpact').innerText = `${landMeat} m²`;
+
+            // Add equivalency calculations
+            document.getElementById('carEquivalent').innerText = (co2Meat * 4).toFixed(0);  // 1 kg CO2 ≈ 4 km driving
+            document.getElementById('phoneEquivalent').innerText = (co2Meat * 125).toFixed(0);  // 1 kg CO2 ≈ 125 phone charges
+            document.getElementById('acEquivalent').innerText = (co2Meat * 2).toFixed(0);  // 1 kg CO2 ≈ 2 hours of AC
+
+            document.getElementById('showerEquivalent').innerText = ((waterMeat / 100) * 20).toFixed(0);  // 1 hectoliter ≈ 20 showers
+            document.getElementById('poolEquivalent').innerText = ((waterMeat / 100) / 50).toFixed(1);  // 50 hectoliters ≈ 1 pool
+            document.getElementById('dishwasherEquivalent').innerText = ((waterMeat / 100) * 40).toFixed(0);  // 1 hectoliter ≈ 40 dishwasher cycles
+
+            document.getElementById('tennisEquivalent').innerText = (landMeat / 260).toFixed(2);  // Tennis court ≈ 260m²
+            document.getElementById('parkingEquivalent').innerText = (landMeat / 12).toFixed(0);  // Parking space ≈ 12m²
+            document.getElementById('vegetableEquivalent').innerText = (landMeat * 2).toFixed(0);  // 1m² ≈ 2kg vegetables/year
+
+            // Update the chart data
+            co2MeatData = co2Meat;
+            waterMeatData = waterMeat;
+            landMeatData = landMeat;
+
+            footprintChart.data.datasets[0].data = [co2MeatData, (waterMeatData / 100), landMeatData];
+            footprintChart.update();
+        }
+
+        function calculatePlantBasedFootprint() {
+            // Example values for plant-based alternatives
+            co2PlantData = 5; // CO2 emissions in kg for plant-based
+            waterPlantData = 200; // Water usage in liters for plant-based
+            landPlantData = 2; // Land usage in m² for plant-based
+
+            // Update results on the webpage
+            document.getElementById('plantCo2Result').innerText = `Total CO2 Emissions (Plant-Based): ${co2PlantData} kg`;
+            document.getElementById('plantWaterResult').innerText = `Total Water Usage (Plant-Based): ${(waterPlantData / 100).toFixed(2)} hectoliters`;
+            document.getElementById('plantLandResult').innerText = `Total Land Usage (Plant-Based): ${landPlantData} m²`;
+
+            // Update the chart data
+            footprintChart.data.datasets[1].data = [co2PlantData, (waterPlantData / 100), landPlantData];
+            footprintChart.update();
+        }
+    </script>
+</body>
+
+</html>
