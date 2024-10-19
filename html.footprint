@@ -24,6 +24,8 @@
 </head>
 <body>
     <h1>Footprint Calculator</h1>
+
+    <!-- Input fields -->
     <label for="beef">Beef Consumption (grams/week):</label>
     <input type="number" id="beef" value="0"><br>
 
@@ -36,25 +38,28 @@
     <label for="beyond-meat">Beyond Meat Meals (meals/week):</label>
     <input type="number" id="beyond-meat" value="0"><br>
 
+    <!-- Button to trigger the calculation -->
     <button onclick="calculateFootprint()">Calculate Footprint</button>
 
+    <!-- Result display -->
     <div class="result" id="co2Result">Total CO2 Emissions: 0 kg</div>
     <div class="result" id="waterResult">Total Water Usage: 0 liters</div>
     <div class="result" id="landResult">Total Land Usage: 0 m²</div>
 
     <script>
         function calculateFootprint() {
+            // Get input values
             var beef = document.getElementById('beef').value;
             var chicken = document.getElementById('chicken').value;
             var pork = document.getElementById('pork').value;
             var beyondMeat = document.getElementById('beyond-meat').value;
 
-            // Calculations
+            // Perform calculations
             var co2Total = (beef / 100 * 0.27) + (chicken / 100 * 0.069) + (pork / 100 * 0.121) - (beyondMeat * 0.004);
             var waterTotal = (beef / 100 * 18) + (chicken / 100 * 4.32) + (pork / 100 * 5.9) - (beyondMeat * 0.5);
             var landTotal = (beef / 100 * 0.2) + (chicken / 100 * 0.043) + (pork / 100 * 0.07) - (beyondMeat * 0.02);
 
-            // Display results
+            // Display the results
             document.getElementById('co2Result').innerHTML = "Total CO2 Emissions: " + co2Total.toFixed(2) + " kg";
             document.getElementById('waterResult').innerHTML = "Total Water Usage: " + waterTotal.toFixed(2) + " liters";
             document.getElementById('landResult').innerHTML = "Total Land Usage: " + landTotal.toFixed(2) + " m²";
