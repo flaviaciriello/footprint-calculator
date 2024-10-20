@@ -154,7 +154,7 @@
         <label for="pork">Pork Portions (per week):</label>
         <input type="number" id="pork" value="0">
 
-        <button onclick="calculateFootprint()">Calculate Footprint</button>
+        <button onclick="calculateFootprint()">Calculate Your Weekly Footprint</button>
 
         <div class="result" id="co2Result">Total CO2 Emissions: 0 kg</div>
         <div class="result" id="waterResult">Total Water Usage: 0 hectoliters</div>
@@ -177,7 +177,6 @@
                 <ul>
                     <li>Driving a car for <strong id="carEquivalent">0</strong> kilometers</li>
                     <li>Charging your smartphone <strong id="phoneEquivalent">0</strong> times</li>
-                    <li>Running your AC for <strong id="acEquivalent">0</strong> hours</li>
                 </ul>
             </div>
 
@@ -187,7 +186,6 @@
                 <p>This is equivalent to:</p>
                 <ul>
                     <li>Taking <strong id="showerEquivalent">0</strong> ten-minute showers</li>
-                    <li>Filling <strong id="poolEquivalent">0</strong> average backyard swimming pools</li>
                     <li>Running your dishwasher <strong id="dishwasherEquivalent">0</strong> times</li>
                 </ul>
             </div>
@@ -197,7 +195,6 @@
                 <p>Your annual land usage: <strong id="userLandImpact">0 m²</strong></p>
                 <p>This is equivalent to:</p>
                 <ul>
-                    <li>The size of <strong id="tennisEquivalent">0</strong> tennis courts</li>
                     <li>Parking space for <strong id="parkingEquivalent">0</strong> cars</li>
                     <li>A garden that could grow <strong id="vegetableEquivalent">0</strong> kg of vegetables annually</li>
                 </ul>
@@ -317,13 +314,10 @@
             // Equivalents Calculations
             document.getElementById('carEquivalent').innerText = (userCo2Impact / 2.31).toFixed(1); // Average car emits 2.31 kg CO2/km
             document.getElementById('phoneEquivalent').innerText = (userCo2Impact / 0.1).toFixed(1); // Charging phone emits ~0.1 kg CO2
-            document.getElementById('acEquivalent').innerText = (userCo2Impact / 0.3).toFixed(1); // AC emits ~0.3 kg CO2 per hour
 
             document.getElementById('showerEquivalent').innerText = (userWaterImpact * 100 / 75).toFixed(1); // 75 liters per shower
-            document.getElementById('poolEquivalent').innerText = (userWaterImpact * 100 / 25000).toFixed(1); // Average pool is 25,000 liters
             document.getElementById('dishwasherEquivalent').innerText = (userWaterImpact * 100 / 20).toFixed(1); // Average dishwasher uses ~20 liters per cycle
 
-            document.getElementById('tennisEquivalent').innerText = (userLandImpact / 260).toFixed(1); // Tennis court is ~260 m²
             document.getElementById('parkingEquivalent').innerText = (userLandImpact / 12.5).toFixed(1); // Parking space is ~12.5 m²
             document.getElementById('vegetableEquivalent').innerText = (userLandImpact / 1).toFixed(1); // Assuming 1 m² produces 1 kg of vegetables
         }
