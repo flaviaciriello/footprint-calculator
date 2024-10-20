@@ -1,0 +1,36 @@
+        // Update CO2, water, and land footprint data
+        co2MeatData = (beef * 27) + (chicken * 6.9) + (pork * 12.1); // Example CO2 values
+        waterMeatData = (beef * 1500) + (chicken * 400) + (pork * 480); // Example water values
+        landMeatData = (beef * 326) + (chicken * 53) + (pork * 70); // Example land values
+
+        // Update chart data
+        footprintChart.data.datasets[0].data = [co2MeatData, (waterMeatData / 100), landMeatData];
+        footprintChart.update();
+
+        // Update result text
+        document.getElementById('co2Result').textContent = `Total CO2 Emissions: ${co2MeatData.toFixed(2)} kg`;
+        document.getElementById('waterResult').textContent = `Total Water Usage: ${(waterMeatData / 100).toFixed(2)} hectoliters`;
+        document.getElementById('landResult').textContent = `Total Land Usage: ${landMeatData.toFixed(2)} m²`;
+
+        // Update awareness section
+        document.getElementById('userCo2Impact').textContent = `${co2MeatData.toFixed(2)} kg`;
+        document.getElementById('userWaterImpact').textContent = `${(waterMeatData / 100).toFixed(2)} hectoliters`;
+        document.getElementById('userLandImpact').textContent = `${landMeatData.toFixed(2)} m²`;
+    }
+
+    function calculatePlantBasedFootprint() {
+        // Example plant-based footprint values
+        co2PlantData = 5; // Example CO2 value for plant-based
+        waterPlantData = 300; // Example water value for plant-based
+        landPlantData = 30; // Example land value for plant-based
+
+        // Update chart data
+        footprintChart.data.datasets[1].data = [co2PlantData, (waterPlantData / 100), landPlantData];
+        footprintChart.update();
+
+        // Update result text
+        document.getElementById('plantCo2Result').textContent = `Total CO2 Emissions (Plant-Based): ${co2PlantData.toFixed(2)} kg`;
+        document.getElementById('plantWaterResult').textContent = `Total Water Usage (Plant-Based): ${(waterPlantData / 100).toFixed(2)} hectoliters`;
+        document.getElementById('plantLandResult').textContent = `Total Land Usage (Plant-Based): ${landPlantData.toFixed(2)} m²`;
+    }
+</script>
